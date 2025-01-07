@@ -9,7 +9,12 @@ def main():
     # Uncomment this to pass the first stage
     #
     server = socket.create_server(("localhost", 9092), reuse_port=True)
-    server.accept() # wait for client
+    print("Server is listening on port 9092")
+    conn,addr = server.accept() # wait for client
+    conn.send(b"00 00 00 00")
+    conn.send(b"00 00 00 07")
+    conn.close()
+
 
 
 if __name__ == "__main__":
