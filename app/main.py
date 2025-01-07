@@ -1,12 +1,14 @@
 import socket  # noqa: F401
 
 
-def create_message(length):
-    id_bytes = length.to_bytes(4, byteorder="big")
-    return len(id_bytes).to_bytes(4, byteorder="big") + id_bytes
+def create_message(correlationId):
+    
+    return len("0").to_bytes(4, byteorder="big") + correlationId
 def handle_client(client):
-    client.recv(1024)
-    client.sendall(create_message(7))
+    s = client.recv(1024)
+    correlationId = s[16:24]
+    
+    client.sendall(create_message(correlationId))
     client.close()
 def main():
     # You can use print statements as follows for debugging,
